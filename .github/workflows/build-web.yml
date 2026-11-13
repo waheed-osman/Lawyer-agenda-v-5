@@ -1,0 +1,33 @@
+name: Build Web
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.4'
+          channel: stable
+          cache: false
+
+      - name: Create web project
+        run: flutter create --platforms=web --project-name lawyer_agenda .
+
+      - name: Prepare web (sqlite wasm + overrides)
+        run: python3 tool/setup_web.py
+
+      - name: Build web
+        run: flutter build web --release --base-href /
+
+      - name: Zip site
+        run: cd build/web && zip -qr ../../lawyer-agenda-web.zip .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lawyer-agenda-web
+          path: lawyer-agenda-web.zip
