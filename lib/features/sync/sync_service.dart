@@ -233,7 +233,7 @@ class SyncService with WidgetsBindingObserver {
       'data': base64Encode(box.concatenation()),
       'updated': DateTime.now().toIso8601String(),
       'device': _deviceId,
-      'hasFiles': !kIsWeb,
+      'hasFiles': false,
     });
   }
 
@@ -255,7 +255,8 @@ class SyncService with WidgetsBindingObserver {
   // ---------- العمليات ----------
   Future<SyncResult> _push(String? sha) async {
     status.value = 'جارٍ الرفع…';
-    final text = await Backup.exportJson();
+    // البيانات النصية فقط: الملفات الكبيرة تستهلك ذاكرة التليفون وتسبب Out of Memory
+    final text = await Backup.exportJson(withFiles: false);
     final enc = await _encrypt(text);
     final newSha = await _putRemote(enc, sha);
     await _markSynced(newSha);
