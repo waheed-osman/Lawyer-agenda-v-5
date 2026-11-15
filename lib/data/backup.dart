@@ -54,6 +54,7 @@ class Backup {
     final data = {
       'app': 'lawyer_agenda',
       'version': 5,
+      'hasFiles': !kIsWeb,
       'created': DateTime.now().toIso8601String(),
       'tables': tables,
       'profile': LawyerProfile.exportMap(),
@@ -74,7 +75,7 @@ class Backup {
   static Future<void> restore(File file) async => restoreJson(await file.readAsString());
 
   /// Replaces ALL current data with the backup JSON text [text].
-  static Future<void> restoreJson(String text) async {
+  static Future<void> restoreJson(String text, {bool keepLocalFiles = false}) async {
     final decoded = jsonDecode(text);
     if (decoded is! Map || decoded['app'] != 'lawyer_agenda' || decoded['tables'] is! Map) {
       throw const FormatException('ملف النسخة الاحتياطية غير صالح');
@@ -83,7 +84,7 @@ class Backup {
     final d = await Db.i.db;
 
     // clear old attachment files
-    if (!kIsWeb && await AppFiles.dir.exists()) {
+    if (!kIsWeb && !keepLocalFiles && await AppFiles.dir.exists()) {
       await for (final e in AppFiles.dir.list()) {
         try {
           if (e is File) await e.delete();

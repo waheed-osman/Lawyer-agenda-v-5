@@ -5,6 +5,7 @@ import '../admin/admin_screen.dart';
 import '../azkar/azkar_screen.dart';
 import '../directory/directory_screen.dart';
 import '../guide/guide_screen.dart';
+import '../sync/sync_screen.dart';
 import '../lawyer/lawyer_profile_screen.dart';
 import '../obligations/obligations_screen.dart';
 import '../prayer/prayer_screen.dart';
@@ -17,6 +18,8 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <_Item>[
+      _Item('المزامنة بين الأجهزة', 'ويب وأندرويد، مشفّرة وعلى مستودعك الخاص', Icons.cloud_sync_outlined,
+          const Color(0xFF1565C0), () => const SyncScreen()),
       _Item('أرقام وروابط تهم المحامي المصري', 'الجهات القضائية، منصة مصر الرقمية، النقابة، الشهر العقاري، محاكم الدقهلية', Icons.contacts_outlined,
           const Color(0xFF6A1B9A), () => const DirectoryScreen()),
       _Item('دليل استخدام التطبيق', 'شرح مفصّل لكل قسم، وأفضل طريقة للاستخدام', Icons.help_outline,

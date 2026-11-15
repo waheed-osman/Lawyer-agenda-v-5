@@ -9,6 +9,7 @@ import 'data/db.dart';
 import 'data/db_factory.dart';
 import 'features/lawyer/lawyer_profile.dart';
 import 'features/quick/quick_actions.dart';
+import 'features/sync/sync_service.dart';
 import 'screens/home_shell.dart';
 import 'screens/lock_screen.dart';
 import 'services/notifications.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
     debounce = Timer(const Duration(seconds: 1), Notifier.rescheduleAll);
   });
   unawaited(Notifier.rescheduleAll());
+  await SyncService.i.init();
 
   runApp(const AgendaApp());
 }

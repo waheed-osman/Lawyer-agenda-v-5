@@ -461,7 +461,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const Padding(
             padding: EdgeInsets.all(16),
             child: Text(
-              'أجندة المحامي القانونية • الإصدار 7.2\nجميع البيانات محفوظة على جهازك فقط. لا يتصل التطبيق بالإنترنت إلا عند استخدام المساعد الذكي أو تنزيل ملف من رابط.',
+              'أجندة المحامي القانونية • الإصدار 7.4\nجميع البيانات محفوظة على جهازك فقط. لا يتصل التطبيق بالإنترنت إلا عند استخدام المساعد الذكي أو تنزيل ملف من رابط.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 12),
             ),
