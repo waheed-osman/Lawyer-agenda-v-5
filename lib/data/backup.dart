@@ -33,12 +33,12 @@ class Backup {
   }
 
   /// نص JSON للنسخة الاحتياطية (يُستخدم على الويب مباشرة).
-  static Future<String> exportJson() async {
+  static Future<String> exportJson({bool withFiles = true}) async {
     final d = await Db.i.db;
     final tables = <String, Object?>{};
     for (final t in _tables) {
       final rows = await d.query(t);
-      if (_fileTables.contains(t) && !kIsWeb) {
+      if (_fileTables.contains(t) && !kIsWeb && withFiles) {
         final out = <Map<String, Object?>>[];
         for (final r in rows) {
           final m = Map<String, Object?>.from(r);
@@ -54,7 +54,7 @@ class Backup {
     final data = {
       'app': 'lawyer_agenda',
       'version': 5,
-      'hasFiles': !kIsWeb,
+      'hasFiles': !kIsWeb && withFiles,
       'created': DateTime.now().toIso8601String(),
       'tables': tables,
       'profile': LawyerProfile.exportMap(),
